@@ -1,4 +1,5 @@
 import { ExternalLink, Code2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const projects = [
   {
@@ -24,6 +25,19 @@ const projects = [
   },
 ];
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+
 export default function Projects() {
   return (
     <section id="projects" className="relative py-20">
@@ -40,9 +54,19 @@ export default function Projects() {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-100px' }}
+          className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {projects.map((p) => (
-            <article key={p.title} className="group rounded-xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-900/70 backdrop-blur p-5 hover:shadow-xl hover:shadow-black/5 transition">
+            <motion.article
+              key={p.title}
+              variants={item}
+              className="group rounded-xl border border-black/5 dark:border-white/10 bg-white/70 dark:bg-neutral-900/70 backdrop-blur p-5 transition shadow-sm hover:shadow-xl hover:shadow-black/10"
+            >
               <div className="flex items-center justify-between">
                 <h3 className="font-semibold text-neutral-900 dark:text-white">{p.title}</h3>
                 <Code2 className="h-4 w-4 text-neutral-500" />
@@ -63,9 +87,9 @@ export default function Projects() {
               >
                 Visit <ExternalLink className="h-3.5 w-3.5" />
               </a>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
